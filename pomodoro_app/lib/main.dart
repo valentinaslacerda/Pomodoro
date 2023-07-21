@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'view/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,10 +10,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Poppins'
+      ),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: Home(),
+      title: 'Pomodoro App',
+      initialRoute: '/home',
+      routes: {
+        '/home':(context) => Home()
+      },
     );
   }
 }
