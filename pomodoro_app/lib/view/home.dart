@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:pomodoro_app/view/colors.dart';
 
 class Home extends StatefulWidget {
@@ -9,11 +13,44 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-
   var background = vermelho;
   var button = btnVermelho;
   var container = containerP;
+  var textoS = 'START';
+  var minutos = 1;
+  var segundos = 0;
+  bool flag = false;
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    background = vermelho;
+    button = btnVermelho;
+    container = containerP;
+    textoS = 'START';
+    minutos = 25;
+    segundos = 0;
+    super.initState();
+
+  }
+
+  Timer? timer;
+  NumberFormat format = NumberFormat('00');
+
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      
+      importance: Importance.max,
+      priority: Priority.high,
+      sound: RawResourceAndroidNotificationSound('notification_sound'),
+    );}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +79,9 @@ class _HomeState extends State<Home> {
                       background = vermelho;
                       button = btnVermelho;
                       container = containerP;
+
+                      minutos = 25;
+                      segundos = 0;
                     });
                   },
                   style: TextButton.styleFrom(
@@ -72,6 +112,9 @@ class _HomeState extends State<Home> {
                       button = btnVerde;
                       container = containerS;
 
+                      minutos = 5;
+                      segundos = 0;
+
                     });
                   },
                   style: TextButton.styleFrom(
@@ -101,6 +144,8 @@ class _HomeState extends State<Home> {
                       background = azul;
                       button = btnAzul;
                       container = containerT;
+                      minutos = 15;
+                      segundos = 0;
                     });
                   },
                   style: TextButton.styleFrom(
@@ -135,8 +180,8 @@ class _HomeState extends State<Home> {
               height: 250,
               alignment: Alignment.center,
               child: Text(
-                '25:00',
-                style: TextStyle(
+                '$minutos:${format.format(segundos)}',
+                style: const TextStyle(
                   color: texto,
                   fontSize: 70,
                   fontWeight: FontWeight.w800
@@ -158,9 +203,45 @@ class _HomeState extends State<Home> {
               ),
               onPressed: () {
                 //Função Contador
+                if(!flag){
+                  //solta o tempo
+                  flag = true;
+                  setState(() {
+                    textoS = 'PAUSE';
+                    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+                      setState(() {
+                        if(segundos > 0){
+                          segundos--;
+                        }else if(minutos > 0){
+                          minutos--;
+                          segundos = 59;
+                          
+                        } 
+                         else{
+                          textoS = 'START';
+                          
+                          timer.cancel();
+                          minutos = 25;
+                          flag = false;
+                          
+                        }
+                      });
+
+                    });
+                  });
+
+                  
+                }else{
+                  //para o tempo
+                  setState(() {
+                    textoS = 'START';
+                    timer!.cancel();
+                  });
+                  flag = false;
+                }
               },
               child: Text(
-                'START',
+                '$textoS',
                 style: TextStyle(
                   color: texto,
                   fontSize: 30,
