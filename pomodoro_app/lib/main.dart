@@ -11,15 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Poppins'
-      ),
+      theme: ThemeData(fontFamily: 'Poppins'),
       debugShowCheckedModeBanner: false,
       title: 'Pomodoro App',
       initialRoute: '/home',
-      routes: {
-        '/home':(context) => Home()
-      },
+      routes: {'/home': (context) => Home()},
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:pomodoro_app/view/colors.dart';
 
@@ -20,9 +20,13 @@ class _HomeState extends State<Home> {
   var minutos = 1;
   var segundos = 0;
   bool flag = false;
+  final player = AudioPlayer();
+  var alarmAudioPath = 'alarme.mp3';
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  void playAlarm() async {
+    await player.setSource(AssetSource('sons/alarme.mp3'));
+    player.resume();
+  }
 
   @override
   void initState() {
@@ -33,23 +37,10 @@ class _HomeState extends State<Home> {
     minutos = 25;
     segundos = 0;
     super.initState();
-
   }
 
   Timer? timer;
   NumberFormat format = NumberFormat('00');
-
-  Future<void> _showNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'channel_id',
-      'channel_name',
-      
-      importance: Importance.max,
-      priority: Priority.high,
-      sound: RawResourceAndroidNotificationSound('notification_sound'),
-    );}
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,17 +53,17 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Align(
-              alignment: Alignment.topLeft,
-              child: Image.asset(
-                'assets/images/logo.png'
-              )
-            ),
+                alignment: Alignment.topLeft,
+                child: Image.asset('assets/images/logo.png')),
             const SizedBox(height: 80),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
                   onPressed: () {
+                    timer?.cancel();
+                    textoS = 'START';
+                    flag = false;
                     //Função Pomodoro
                     setState(() {
                       //Mudando cores da tela
@@ -86,26 +77,25 @@ class _HomeState extends State<Home> {
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: button,
-                    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 18, horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: const Text(
-                    'Pomodoro',
-                    style: TextStyle(
-                      color: texto,
-                      fontSize: 12.54,
-                      fontWeight: FontWeight.w700
-                    )
-                  ),
+                  child: const Text('Pomodoro',
+                      style: TextStyle(
+                          color: texto,
+                          fontSize: 12.54,
+                          fontWeight: FontWeight.w700)),
                 ),
-
                 const SizedBox(width: 10),
-
                 TextButton(
                   onPressed: () {
                     //Função Short Break
+                    timer?.cancel();
+                    textoS = 'START';
+                    flag = false;
                     setState(() {
                       //Mudando cores da tela
                       background = verde;
@@ -114,124 +104,107 @@ class _HomeState extends State<Home> {
 
                       minutos = 5;
                       segundos = 0;
-
                     });
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: button,
-                    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 18, horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: const Text(
-                    'Short Break',
-                    style: TextStyle(
-                      color: texto,
-                      fontSize: 12.54,
-                      fontWeight: FontWeight.w700
-                    )
-                  ),
+                  child: const Text('Short Break',
+                      style: TextStyle(
+                          color: texto,
+                          fontSize: 12.54,
+                          fontWeight: FontWeight.w700)),
                 ),
-
-                const SizedBox(width: 10,),
-
+                const SizedBox(
+                  width: 10,
+                ),
                 TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    timer?.cancel();
+                    textoS = 'START';
+                    flag = false;
                     //Função Long Break
                     setState(() {
                       //Mudando cores da tela
                       background = azul;
                       button = btnAzul;
                       container = containerT;
-                      minutos = 15;
-                      segundos = 0;
+                      minutos = 0;
+                      segundos = 5;
                     });
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: button,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 18, horizontal: 20),
+                        vertical: 18, horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  child: const Text(
-                    'Long Break',
-                    style: TextStyle(
-                      color: texto,
-                      fontSize: 12.54,
-                      fontWeight: FontWeight.w700
-                    )
-                  ),
+                  child: const Text('Long Break',
+                      style: TextStyle(
+                          color: texto,
+                          fontSize: 12.54,
+                          fontWeight: FontWeight.w700)),
                 ),
-
               ],
             ),
-
-            const SizedBox(height: 39,),
-
+            const SizedBox(
+              height: 39,
+            ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: container
-              ),
+                  borderRadius: BorderRadius.circular(7), color: container),
               width: double.infinity,
               height: 250,
               alignment: Alignment.center,
               child: Text(
                 '$minutos:${format.format(segundos)}',
                 style: const TextStyle(
-                  color: texto,
-                  fontSize: 70,
-                  fontWeight: FontWeight.w800
-                ),
+                    color: texto, fontSize: 70, fontWeight: FontWeight.w800),
               ),
-
             ),
-
-            const SizedBox(height: 55,),
-
+            const SizedBox(
+              height: 55,
+            ),
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: button,
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 55),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 55),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)
-                ),
-                
+                    borderRadius: BorderRadius.circular(5)),
               ),
               onPressed: () {
                 //Função Contador
-                if(!flag){
+                if (!flag) {
                   //solta o tempo
                   flag = true;
                   setState(() {
                     textoS = 'PAUSE';
                     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
                       setState(() {
-                        if(segundos > 0){
+                        if (segundos > 0) {
                           segundos--;
-                        }else if(minutos > 0){
+                        } else if (minutos > 0) {
                           minutos--;
                           segundos = 59;
-                          
-                        } 
-                         else{
+                        } else {
                           textoS = 'START';
-                          
+                          playAlarm();
                           timer.cancel();
                           minutos = 25;
                           flag = false;
-                          
                         }
                       });
-
                     });
                   });
-
-                  
-                }else{
+                } else {
                   //para o tempo
                   setState(() {
                     textoS = 'START';
