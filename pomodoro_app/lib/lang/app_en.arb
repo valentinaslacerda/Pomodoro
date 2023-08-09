@@ -1,0 +1,18 @@
+{
+  "language": "English",
+  "@language":{
+    "description": "The current language"
+  },
+  "pause": "Pause",
+  "@pause":{
+    "description": "a timer pause"
+  },
+  "shortBreak": "Short break",
+  "@shortBreak":{
+    "description": "a short break timer"
+  },
+  "longBreak": "Long break",
+  "@longBreak":{
+    "description": "a long break timer"
+  }
+}

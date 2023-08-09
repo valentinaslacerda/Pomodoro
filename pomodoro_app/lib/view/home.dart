@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pomodoro_app/view/colors.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../controller/homeC.dart';
 
 class Home extends StatelessWidget {
@@ -30,20 +30,6 @@ class Home extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         c.pomodoro();
-                        /*
-                      timer?.cancel();
-                      textoS = 'START';
-                      flag = false;
-                      //Função Pomodoro
-                      setState(() {
-                        //Mudando cores da tela
-                        background = vermelho;
-                        button = btnVermelho;
-                        container = containerP;
-    
-                        minutos = 25;
-                        segundos = 0;
-                      });*/
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: c.button,
@@ -63,20 +49,6 @@ class Home extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         c.shortBreak();
-                        /*
-                      //Função Short Break
-                      timer?.cancel();
-                      textoS = 'START';
-                      flag = false;
-                      setState(() {
-                        //Mudando cores da tela
-                        background = verde;
-                        button = btnVerde;
-                        container = containerS;
-    
-                        minutos = 5;
-                        segundos = 0;
-                      })*/
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: c.button,
@@ -86,7 +58,7 @@ class Home extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      child: const Text('Short Break',
+                      child: Text(AppLocalizations.of(context)!.shortBreak,
                           style: TextStyle(
                               color: texto,
                               fontSize: 12.54,
@@ -98,19 +70,6 @@ class Home extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         c.longBreak();
-                        /*
-                      timer?.cancel();
-                      textoS = 'START';
-                      flag = false;
-                      //Função Long Break
-                      setState(() {
-                        //Mudando cores da tela
-                        background = azul;
-                        button = btnAzul;
-                        container = containerT;
-                        minutos = 0;
-                        segundos = 5;
-                      })*/
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: c.button,
@@ -120,7 +79,7 @@ class Home extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      child: const Text('Long Break',
+                      child: Text(AppLocalizations.of(context)!.longBreak,
                           style: TextStyle(
                               color: texto,
                               fontSize: 12.54,
@@ -160,36 +119,6 @@ class Home extends StatelessWidget {
                   onPressed: () {
                     //Função Contador
                     c.contador();
-                    /*if (!flag) {
-                    //solta o tempo
-                    flag = true;
-                    setState(() {
-                      textoS = 'PAUSE';
-                      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-                        setState(() {
-                          if (segundos > 0) {
-                            segundos--;
-                          } else if (minutos > 0) {
-                            minutos--;
-                            segundos = 59;
-                          } else {
-                            textoS = 'START';
-                            playAlarm();
-                            timer.cancel();
-                            minutos = 25;
-                            flag = false;
-                          }
-                        });
-                      });
-                    });
-                  } else {
-                    //para o tempo
-                    setState(() {
-                      textoS = 'START';
-                      timer!.cancel();
-                    });
-                    flag = false;
-                  }*/
                   },
                   child: Text(
                     '${c.textoS}',
