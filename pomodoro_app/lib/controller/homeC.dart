@@ -1,12 +1,21 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../view/colors.dart';
+import 'entity/tarefa.dart';
 
 class Controller extends GetxController {
+  List<Todo> listTarefa = [];
+  Todo? deleted;
+  int? deletedIndex;
+  String? errorText;
+  final textController = TextEditingController();
+
+
   var background = vermelho;
   var button = btnVermelho;
   var container = containerP;
@@ -123,4 +132,54 @@ class Controller extends GetxController {
       update();
     }
   }
+
+  void addTarefa(){
+    String text = textController.text;
+
+    if(text.isEmpty){
+      errorText = 'O titulo não pode ser vazio';
+      update();
+      return;
+    }
+
+    Todo novaTarefa = Todo(title: text, date: DateTime.now());
+    listTarefa.add(novaTarefa);
+    errorText = null;
+    update();
+
+    textController.clear();
+
+  }
+
+  void deleteTarefa(Todo todo) {
+    deleted = todo;
+    deletedIndex = listTarefa.indexOf(todo);
+
+    
+    listTarefa.remove(todo);
+    update();
+
+    //todoRepository.saveTodoList(todos);
+
+    // ScaffoldMessenger.of(context).clearSnackBars();
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   content: Text(
+    //     'Tarefa ${todo.title} foi removida com sucesso!',
+    //     style: TextStyle(color: Color(0xff060708)),
+    //   ),
+    //   backgroundColor: Colors.white,
+    //   action: SnackBarAction(
+    //     label: 'Desfazer',
+    //     textColor: const Color(0xff00d7f3),
+    //     onPressed: () {
+    //       setState(() {
+    //         todos.insert(deletedpos!, deletedTodo!);
+    //       });
+    //       todoRepository.saveTodoList(todos);
+    //     },
+    //   ),
+    //   duration: const Duration(seconds: 5),
+    // ));
+  }
+
 }
