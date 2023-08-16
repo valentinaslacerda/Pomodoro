@@ -2,6 +2,6 @@
   "language": "Português",
   "pause": "Pausar",
   "shortBreak": "Pausa curta",
-  "longBreak": "Pausa longa"
- 
+  "longBreak": "Pausa longa",
+  "nameTask": "Nome da tarefa"
 }

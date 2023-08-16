@@ -14,5 +14,9 @@
   "longBreak": "Long break",
   "@longBreak":{
     "description": "a long break timer"
+  },
+  "nameTask": "Name of the task",
+  "@nameTask":{
+    "description": "a name task"
   }
 }

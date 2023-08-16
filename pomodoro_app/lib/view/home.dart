@@ -50,7 +50,7 @@ class Home extends StatelessWidget {
                                 fontSize: 12.54,
                                 fontWeight: FontWeight.w700)),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 9),
                       TextButton(
                         onPressed: () {
                           c.shortBreak();
@@ -63,17 +63,14 @@ class Home extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        child: Text(
-                          AppLocalizations.of(context)!.shortBreak,
-                          style: TextStyle(
-                            color: texto,
-                            fontSize: 12.54,
-                            fontWeight: FontWeight.w700
-                          )
-                        ),
+                        child: Text(AppLocalizations.of(context)!.shortBreak,
+                            style: TextStyle(
+                                color: texto,
+                                fontSize: 12.54,
+                                fontWeight: FontWeight.w700)),
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 9,
                       ),
                       TextButton(
                         onPressed: () {
@@ -137,9 +134,11 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-            
+
                   //LISTA DE TAREFAS
-                  const SizedBox(height: 35,),
+                  const SizedBox(
+                    height: 35,
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -149,14 +148,17 @@ class Home extends StatelessWidget {
                             errorText: c.errorText,
                             errorStyle: TextStyle(color: Colors.blue),
                             border: OutlineInputBorder(),
-                            labelText: 'Nome da Tarefa',
+                            labelText: AppLocalizations.of(context)!.nameTask,
                             labelStyle: TextStyle(color: texto),
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: c.button, width: 2),), 
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: c.button, width: 2),
+                            ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8,),
-                      
+                      const SizedBox(
+                        width: 8,
+                      ),
                       TextButton(
                         onPressed: () {
                           c.addTarefa();
@@ -170,25 +172,23 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         child: const Icon(Icons.add, color: Colors.white),
-                        ),
-                      
+                      ),
                     ],
                   ),
-          
-                  const SizedBox(height: 5,),
-          
+
+                  const SizedBox(
+                    height: 5,
+                  ),
+
                   Flexible(
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        for(Todo tarefa in c.listTarefa)
+                        for (Todo tarefa in c.listTarefa)
                           TodoCard(todo: tarefa, onDelete: c.deleteTarefa)
                       ],
                     ),
                   ),
-                  
-            
-            
                 ],
               ),
             ),
